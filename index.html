@@ -1,0 +1,45 @@
+<script>
+// JSONファイルのリスト（ファイルごとに分割）
+const jsonFiles = [
+  '201012.json',
+  // 必要なファイルをここに追加
+];
+
+let index;
+let data = [];
+
+// JSONを順次読み込む
+Promise.all(jsonFiles.map(f =>
+  fetch(f).then(res => res.json())
+)).then(results => {
+  results.forEach(arr => data.push(...arr));
+
+  // lunr.js インデックス作成
+  index = lunr(function () {
+    this.ref('ref'); // 一意のID
+    this.field('content'); // 検索対象は content のみ
+    let counter = 0;
+    data.forEach(item => {
+      item.ref = counter++;
+      this.add(item);
+    });
+  });
+});
+
+// 検索処理
+document.getElementById('searchBox').addEventListener('input', e => {
+  const query = e.target.value;
+  const resultsEl = document.getElementById('results');
+  resultsEl.innerHTML = '';
+
+  if (!query || !index) return;
+
+  const results = index.search(query);
+  results.forEach(r => {
+    const item = data[r.ref];
+    const li = document.createElement('li');
+    li.textContent = item.content; // 行内容のみ表示
+    resultsEl.appendChild(li);
+  });
+});
+</script>
