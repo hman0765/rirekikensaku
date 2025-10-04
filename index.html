@@ -22,6 +22,8 @@ async function checkJSON() {
   try {
     const res = await fetch(file + "?t=" + Date.now()); // キャッシュ無効
     const txt = await res.text(); // 文字列として取得
+    const data = JSON.parse(txt); // 配列オブジェクトとして扱える
+    console.log(data);
     console.log("=== " + file + " ===");
     console.log(txt);             // JSON全体を確認
     console.log(txt.slice(0, 200)); // 先頭200文字だけ確認
@@ -34,6 +36,7 @@ checkJSON();
 </script>
 </body>
 </html>
+
 
 
 
