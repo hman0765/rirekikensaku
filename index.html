@@ -1,44 +1,127 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8">
-  <title>履歴検索</title>
-  <style>
-    body { font-family: sans-serif; margin: 20px; }
-    #results { margin-top: 20px; }
-    .result { padding: 5px; border-bottom: 1px solid #ccc; }
-    .file { color: #888; font-size: 0.9em; }
-  </style>
+<meta charset="UTF-8">
+<title>JSON検索サンプル</title>
+<style>
+  body { font-family: sans-serif; padding: 20px; }
+  .result { margin-bottom: 10px; }
+  .file { color: gray; font-size: 0.9em; }
+</style>
 </head>
 <body>
-  <h1>過去の暇アニ検索</h1>
-  <input type="text" id="query" placeholder="検索語を入力">
-  <button onclick="search()">検索</button>
-  <div id="results"></div>
+<h1>JSON 一括検索サンプル</h1>
 
-  <script>
-async function checkJSON() {
-  const file = "data/201102.json"; // 確認したいJSONファイル
-  try {
-    const res = await fetch(file + "?t=" + Date.now()); // キャッシュ無効
-    const txt = await res.text(); // 文字列として取得
-    const data = JSON.parse(txt); // 配列オブジェクトとして扱える
-    console.log(data);
-    console.log("=== " + file + " ===");
-    console.log(txt);             // JSON全体を確認
-    console.log(txt.slice(0, 200)); // 先頭200文字だけ確認
-  } catch (e) {
-    console.error("Fetch error:", e);
+<input type="text" id="query" placeholder="検索文字列を入力">
+<button onclick="search()">検索</button>
+
+<div id="results"></div>
+
+<script>
+const jsonFiles = [
+"data/201012.json"
+"data/201102.json"
+"data/201104.json"
+"data/201108.json"
+"data/201109.json"
+"data/201112.json"
+"data/201204.json"
+"data/201208.json"
+"data/201212.json"
+"data/201304.json"
+"data/201308.json"
+"data/201312.json"
+"data/201404.json"
+"data/201408.json"
+"data/201412.json"
+"data/201504.json"
+"data/201508.json"
+"data/201512.json"
+"data/201604.json"
+"data/201608.json"
+"data/201612.json"
+"data/201704.json"
+"data/201708.json"
+"data/201712.json"
+"data/201804.json"
+"data/201808.json"
+"data/201812.json"
+"data/201904.json"
+"data/201908.json"
+"data/201912.json"
+"data/202004.json"
+"data/202008.json"
+"data/202012.json"
+"data/202101.json"
+"data/202104.json"
+"data/202108.json"
+"data/202112.json"
+"data/202204.json"
+"data/202208.json"
+"data/202209.json"
+"data/202212.json"
+"data/202304.json"
+"data/202308.json"
+"data/202312.json"
+"data/202404.json"
+"data/202408.json"
+"data/202412.json"
+"data/202501.json"
+"data/202504.json"
+"data/202508.json"
+];
+
+let allData = [];
+
+// JSON を読み込む関数
+async function loadData() {
+  allData = [];
+  for (let file of jsonFiles) {
+    try {
+      const res = await fetch(file + "?t=" + Date.now()); // キャッシュ無効
+      let txt = await res.text();
+
+      // BOM 除去
+      if (txt.charCodeAt(0) === 0xFEFF) txt = txt.slice(1);
+
+      // パースして配列に追加
+      const data = JSON.parse(txt);
+      allData = allData.concat(data);
+    } catch (e) {
+      console.error("JSON読み込みエラー:", file, e);
+    }
   }
 }
 
-checkJSON();
+// 検索関数
+function search() {
+  const query = document.getElementById("query").value.trim();
+  const resultsDiv = document.getElementById("results");
+  resultsDiv.innerHTML = "";
+
+  if (!query) return;
+
+  const matches = allData.filter(item => item.content.includes(query));
+
+  if (matches.length === 0) {
+    resultsDiv.textContent = "該当なし";
+    return;
+  }
+
+  for (let m of matches) {
+    const div = document.createElement("div");
+    div.className = "result";
+    div.innerHTML = `<div>${m.content}</div>
+                     <div class="file">(${m.title} : ${m.line}行目)</div>`;
+    resultsDiv.appendChild(div);
+  }
+}
+
+// ページ読み込み時に JSON を全部読む
+loadData();
 </script>
 </body>
 </html>
-
-
-
 
 
 
