@@ -18,7 +18,7 @@
 
   <script>
 async function checkJSON() {
-  const file = "data/test02.json"; // 確認したいJSONファイル
+  const file = "data/201102.json"; // 確認したいJSONファイル
   try {
     const res = await fetch(file + "?t=" + Date.now()); // キャッシュ無効
     const txt = await res.text(); // 文字列として取得
@@ -34,6 +34,7 @@ checkJSON();
 </script>
 </body>
 </html>
+
 
 
 
