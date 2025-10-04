@@ -1,24 +1,24 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-<meta charset="UTF-8">
-<title>JSON検索サンプル</title>
-<style>
-  body { font-family: sans-serif; padding: 20px; }
-  .result { margin-bottom: 10px; }
-  .file { color: gray; font-size: 0.9em; }
-</style>
+  <meta charset="UTF-8">
+  <title>履歴検索</title>
+  <style>
+    body { font-family: sans-serif; margin: 20px; }
+    #results { margin-top: 20px; }
+    .result { padding: 5px; border-bottom: 1px solid #ccc; }
+    .file { color: #888; font-size: 0.9em; }
+  </style>
 </head>
 <body>
-<h1>JSON 一括検索サンプル</h1>
+  <h1>過去の暇アニ検索</h1>
+  <input type="text" id="query" placeholder="検索語を入力">
+  <button onclick="search()">検索</button>
+  <div id="results"></div>
 
-<input type="text" id="query" placeholder="検索文字列を入力">
-<button onclick="search()">検索</button>
-
-<div id="results"></div>
-
-<script>
-const jsonFiles = [
+  <script>
+    // 読み込むJSONファイル（複数あれば増やせる）
+    const jsonFiles = [
 "data/201012.json"
 "data/201102.json"
 "data/201104.json"
@@ -69,57 +69,47 @@ const jsonFiles = [
 "data/202501.json"
 "data/202504.json"
 "data/202508.json"
-];
+    ];
+    let allData = [];
 
-let allData = [];
-
-// JSON を読み込む関数
-async function loadData() {
-  allData = [];
-  for (let file of jsonFiles) {
-    try {
-      const res = await fetch(file + "?t=" + Date.now()); // キャッシュ無効
-      let txt = await res.text();
-
-      // BOM 除去
-      if (txt.charCodeAt(0) === 0xFEFF) txt = txt.slice(1);
-
-      // パースして配列に追加
-      const data = JSON.parse(txt);
-      allData = allData.concat(data);
-    } catch (e) {
-      console.error("JSON読み込みエラー:", file, e);
+    // ページ読み込み時にJSONを全部読む
+    async function loadData() {
+      for (let file of jsonFiles) {
+        try {
+          const res = await fetch(file);
+          const data = await res.json();
+          allData = allData.concat(data);
+        } catch (e) {
+          console.error("読み込み失敗:", file, e);
+        }
+      }
     }
-  }
-}
 
-// 検索関数
-function search() {
-  const query = document.getElementById("query").value.trim();
-  const resultsDiv = document.getElementById("results");
-  resultsDiv.innerHTML = "";
+    async function search() {
+      const query = document.getElementById("query").value.trim();
+      const resultsDiv = document.getElementById("results");
+      resultsDiv.innerHTML = "";
 
-  if (!query) return;
+      if (!query) return;
 
-  const matches = allData.filter(item => item.content.includes(query));
+      const matches = allData.filter(item => item.content.includes(query));
 
-  if (matches.length === 0) {
-    resultsDiv.textContent = "該当なし";
-    return;
-  }
+      if (matches.length === 0) {
+        resultsDiv.textContent = "該当なし";
+        return;
+      }
 
-  for (let m of matches) {
-    const div = document.createElement("div");
-    div.className = "result";
-    div.innerHTML = `<div>${m.content}</div>
-                     <div class="file">(${m.title} : ${m.line}行目)</div>`;
-    resultsDiv.appendChild(div);
-  }
-}
+      for (let m of matches) {
+        const div = document.createElement("div");
+        div.className = "result";
+        div.innerHTML = `<div>${m.content}</div>
+                         <div class="file">(${m.title} : ${m.line}行目)</div>`;
+        resultsDiv.appendChild(div);
+      }
+    }
 
-// ページ読み込み時に JSON を全部読む
-loadData();
-</script>
+    loadData();
+  </script>
 </body>
 </html>
 
