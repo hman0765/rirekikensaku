@@ -2,7 +2,7 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
-  <title>履歴検索</title>
+  <title>テスト検索</title>
   <link href="favicon.ico" rel="icon">
   <style>
     body { font-family: sans-serif; margin: 20px; }
@@ -12,7 +12,7 @@
   </style>
 </head>
 <body>
-  <h1>過去の暇アニ検索</h1>
+  <h1>テスト検索その第一回</h1>
   <input type="text" id="query" placeholder="検索語を入力">
   <button onclick="search()">検索</button>
   <div id="results"></div>
@@ -89,25 +89,32 @@
   }
 
   async function search() {
-    const query = document.getElementById("query").value.trim();
-    matches = [];
-    currentPage = 1;
+  const query = document.getElementById("query").value.trim();
+  matches = [];
+  currentPage = 1;
 
-    if (!query) {
-      document.getElementById("results").innerHTML = "";
-      document.getElementById("pagination").innerHTML = "";
-      return;
-    }
+  const resultsDiv = document.getElementById("results");
+  const paginationDiv = document.getElementById("pagination");
 
-    matches = allData.filter(item => item.content.includes(query));
+  resultsDiv.innerHTML = "";
+  paginationDiv.innerHTML = "";
 
-    if (matches.length === 0) {
-      document.getElementById("results").textContent = "検索結果0件です";
-      document.getElementById("pagination").innerHTML = "";
-      return;
-    }
+  if (!query) return;
 
-    renderPage();
+  matches = allData.filter(item => item.content.includes(query));
+
+  if (matches.length === 0) {
+    resultsDiv.textContent = "検索結果0件です";
+    return;
+  }
+
+  // ここで検索件数を表示
+  const countDiv = document.createElement("div");
+  countDiv.style.fontWeight = "bold";
+  countDiv.textContent = `検索結果 ${matches.length} 件`;
+  resultsDiv.appendChild(countDiv);
+
+  renderPage();;
   }
 
   function renderPage() {
@@ -151,6 +158,7 @@
 
 </body>
 </html>
+
 
 
 
