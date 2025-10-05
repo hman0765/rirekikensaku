@@ -17,8 +17,9 @@
   <input type="text" id="query" placeholder="検索語を入力">
   <button onclick="search()">検索</button>
   <div id="count"></div>
-  <div id="pagination"></div>
+　<div id="pagination-top"></div>
   <div id="results"></div>
+  <div id="pagination-bottom"></div>
 
 
  <script>
@@ -142,23 +143,25 @@
   }
 
   function renderPagination() {
-    const paginationDiv = document.getElementById("pagination");
-    paginationDiv.innerHTML = "";
+  const topDiv = document.getElementById("pagination-top");
+  const bottomDiv = document.getElementById("pagination-bottom");
+  topDiv.innerHTML = "";
+  bottomDiv.innerHTML = "";
 
-    const totalPages = Math.ceil(matches.length / pageSize);
+  const totalPages = Math.ceil(matches.length / pageSize);
 
-    for (let i = 1; i <= totalPages; i++) {
-      const btn = document.createElement("button");
-      btn.textContent = i;
-      btn.disabled = (i === currentPage);
-      btn.onclick = () => {
-        currentPage = i;
-        renderPage();
-      };
-      paginationDiv.appendChild(btn);
-    }
+  for (let i = 1; i <= totalPages; i++) {
+    const btn = document.createElement("button");
+    btn.textContent = i;
+    btn.disabled = (i === currentPage);
+    btn.onclick = () => {
+      currentPage = i;
+      renderPage();
+    };
+    topDiv.appendChild(btn.cloneNode(true));   // 上用
+    bottomDiv.appendChild(btn);               // 下用
   }
-
+}
   loadData();
 </script>
 
@@ -168,6 +171,7 @@
  
 </body>
 </html>
+
 
 
 
