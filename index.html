@@ -16,11 +16,10 @@
   <p>テスト運営中</p>
   <input type="text" id="query" placeholder="検索語を入力">
   <button onclick="search()">検索</button>
-  <div id="count"></div>
-  <div id="pagination-top"></div>
-  <div id="results"></div>
-  <div id="pagination-bottom"></div>
-
+  <div id="count"></div>             <!-- 件数表示 -->
+<div id="pagination-top"></div>     <!-- ページング 上 -->
+<div id="results"></div>            <!-- 検索結果 -->
+<div id="pagination-bottom"></div>  <!-- ページング 下 -->
  <script>
   const jsonFiles = [
 "data/201012.json",
@@ -163,7 +162,7 @@
       currentPage = i;
       renderPage();
     };
-    topDiv.appendChild(btn.cloneNode(true)); // 上その2
+    topDiv.appendChild(btn.cloneNode(true)); // 上その3
     bottomDiv.appendChild(btn);              // 下
   }
 }
@@ -176,6 +175,7 @@
  
 </body>
 </html>
+
 
 
 
