@@ -14,12 +14,12 @@
 <body>
   <h1>過去の履歴一括検索</h1>
   <p>テスト運営中</p>
-  <input type="text" id="query" placeholder="検索語を入力">
-  <button onclick="search()">検索</button>
-  <div id="count"></div>             <!-- 件数表示 -->
-<div id="pagination-top"></div>     <!-- ページング 上 -->
-<div id="results"></div>            <!-- 検索結果 -->
-<div id="pagination-bottom"></div>  <!-- ページング 下 -->
+  <input type="text" id="query">
+<button onclick="search()">検索</button>
+<div id="count"></div>
+<div id="pagination-top"></div>
+<div id="results"></div>
+<div id="pagination-bottom"></div>
  <script>
   const jsonFiles = [
 "data/201012.json",
@@ -91,36 +91,36 @@
   }
 
   async function search() {
-  const query = document.getElementById("query").value.trim();
-  matches = [];
-  currentPage = 1;
+    const query = document.getElementById("query").value.trim();
+    matches = [];
+    currentPage = 1;
 
-  const resultsDiv = document.getElementById("results");
-  const countDiv = document.getElementById("count");      // 件数表示用 div
-  const paginationDiv = document.getElementById("pagination");
+    const resultsDiv = document.getElementById("results");
+    const countDiv = document.getElementById("count");
 
-  // 初期化
-  resultsDiv.innerHTML = "";
-  countDiv.innerHTML = "";
-  paginationDiv.innerHTML = "";
+    // 初期化
+    resultsDiv.innerHTML = "";
+    countDiv.innerHTML = "";
+    document.getElementById("pagination-top").innerHTML = "";
+    document.getElementById("pagination-bottom").innerHTML = "";
 
-  if (!query) return;
+    if (!query) return;
 
-  // 大文字小文字無視で検索
-  matches = allData.filter(item =>
-    item.content.toLowerCase().includes(query.toLowerCase())
-  );
+    // 大文字小文字無視で検索
+    matches = allData.filter(item =>
+      item.content.toLowerCase().includes(query.toLowerCase())
+    );
 
-  // 件数表示
-  countDiv.textContent = `検索結果 ${matches.length} 件`;
+    // 件数表示
+    countDiv.textContent = `検索結果 ${matches.length} 件`;
 
-  if (matches.length === 0) {
-    resultsDiv.textContent = "検索結果0件です";
-    return;
+    if (matches.length === 0) {
+      resultsDiv.textContent = "検索結果0件です";
+      return;
+    }
+
+    renderPage();
   }
-
-  renderPage();
-}
 
   function renderPage() {
     const resultsDiv = document.getElementById("results");
@@ -141,32 +141,31 @@
   }
 
   function renderPagination() {
-  const topDiv = document.getElementById("pagination-top");
-  const bottomDiv = document.getElementById("pagination-bottom");
+    const topDiv = document.getElementById("pagination-top");
+    const bottomDiv = document.getElementById("pagination-bottom");
 
-  if (!topDiv || !bottomDiv) {
-    console.error("pagination-top / pagination-bottom がHTMLに存在しません");
-    return;
+    if (!topDiv || !bottomDiv) {
+      console.error("pagination-top / pagination-bottom がHTMLに存在しません");
+      return;
+    }
+
+    topDiv.innerHTML = "";
+    bottomDiv.innerHTML = "";
+
+    const totalPages = Math.ceil(matches.length / pageSize);
+
+    for (let i = 1; i <= totalPages; i++) {
+      const btn = document.createElement("button");
+      btn.textContent = i;
+      btn.disabled = (i === currentPage);
+      btn.onclick = () => {
+        currentPage = i;
+        renderPage();
+      };
+      topDiv.appendChild(btn.cloneNode(true)); // 上その7
+      bottomDiv.appendChild(btn);              // 下
+    }
   }
-
-  topDiv.innerHTML = "";
-  bottomDiv.innerHTML = "";
-
-  const totalPages = Math.ceil(matches.length / pageSize);
-
-  for (let i = 1; i <= totalPages; i++) {
-    const btn = document.createElement("button");
-    btn.textContent = i;
-    btn.disabled = (i === currentPage);
-    btn.onclick = () => {
-      currentPage = i;
-      renderPage();
-    };
-    topDiv.appendChild(btn.cloneNode(true)); // 上その3
-    bottomDiv.appendChild(btn);              // 下
-  }
-}
-  loadData();
 </script>
 
 
@@ -175,6 +174,7 @@
  
 </body>
 </html>
+
 
 
 
