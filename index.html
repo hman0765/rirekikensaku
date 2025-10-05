@@ -17,9 +17,8 @@
   <button onclick="search()">検索</button>
   <div id="results"></div>
 
-  <script>
-    // 読み込むJSONファイル（複数あれば増やせる）
-    const jsonFiles = [
+ <script>
+  const jsonFiles = [
 "data/201012.json",
 "data/201102.json",
 "data/201104.json",
@@ -70,48 +69,88 @@
 "data/202501.json",
 "data/202504.json",
 "data/202508.json",
-      ];
-    let allData = [];
+  ]; // JSONファイル
+  let allData = [];
+  let matches = [];
+  let currentPage = 1;
+  const pageSize = 100;
 
-    // ページ読み込み時にJSONを全部読む
-    async function loadData() {
-      for (let file of jsonFiles) {
-        try {
-          const res = await fetch(file);
-          const data = await res.json();
-          allData = allData.concat(data);
-        } catch (e) {
-          console.error("読み込み失敗:", file, e);
-        }
+  async function loadData() {
+    for (let file of jsonFiles) {
+      try {
+        const res = await fetch(file);
+        const data = await res.json();
+        allData = allData.concat(data);
+      } catch (e) {
+        console.error("読み込み失敗:", file, e);
       }
     }
+  }
 
-    async function search() {
-      const query = document.getElementById("query").value.trim();
-      const resultsDiv = document.getElementById("results");
-      resultsDiv.innerHTML = "";
+  async function search() {
+    const query = document.getElementById("query").value.trim();
+    matches = [];
+    currentPage = 1;
 
-      if (!query) return;
-
-      const matches = allData.filter(item => item.content.includes(query));
-
-      if (matches.length === 0) {
-        resultsDiv.textContent = "該当なし";
-        return;
-      }
-
-      for (let m of matches) {
-        const div = document.createElement("div");
-        div.className = "result";
-        div.innerHTML = m.content;
-        resultsDiv.appendChild(div);
-      }
+    if (!query) {
+      document.getElementById("results").innerHTML = "";
+      document.getElementById("pagination").innerHTML = "";
+      return;
     }
 
-    loadData();
-  </script>
+    matches = allData.filter(item => item.content.includes(query));
+
+    if (matches.length === 0) {
+      document.getElementById("results").textContent = "検索結果0件です";
+      document.getElementById("pagination").innerHTML = "";
+      return;
+    }
+
+    renderPage();
+  }
+
+  function renderPage() {
+    const resultsDiv = document.getElementById("results");
+    resultsDiv.innerHTML = "";
+
+    const start = (currentPage - 1) * pageSize;
+    const end = start + pageSize;
+    const pageItems = matches.slice(start, end);
+
+    for (let m of pageItems) {
+      const div = document.createElement("div");
+      div.className = "result";
+      div.textContent = m.content;  // 行内容だけ
+      resultsDiv.appendChild(div);
+    }
+
+    renderPagination();
+  }
+
+  function renderPagination() {
+    const paginationDiv = document.getElementById("pagination");
+    paginationDiv.innerHTML = "";
+
+    const totalPages = Math.ceil(matches.length / pageSize);
+
+    for (let i = 1; i <= totalPages; i++) {
+      const btn = document.createElement("button");
+      btn.textContent = i;
+      btn.disabled = (i === currentPage);
+      btn.onclick = () => {
+        currentPage = i;
+        renderPage();
+      };
+      paginationDiv.appendChild(btn);
+    }
+  }
+
+  loadData();
+</script>
+
 </body>
 </html>
+
 
 
 
