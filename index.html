@@ -97,16 +97,20 @@
   currentPage = 1;
 
   const resultsDiv = document.getElementById("results");
-  const countDiv = document.getElementById("count");  // ← 新しく取得
+  const countDiv = document.getElementById("count");      // 件数表示用 div
   const paginationDiv = document.getElementById("pagination");
 
+  // 初期化
   resultsDiv.innerHTML = "";
-  countDiv.innerHTML = "";      // 検索件数を初期化
+  countDiv.innerHTML = "";
   paginationDiv.innerHTML = "";
 
   if (!query) return;
 
-  matches = allData.filter(item => item.content.includes(query));
+  // 大文字小文字無視で検索
+  matches = allData.filter(item =>
+    item.content.toLowerCase().includes(query.toLowerCase())
+  );
 
   // 件数表示
   countDiv.textContent = `検索結果 ${matches.length} 件`;
@@ -160,6 +164,7 @@
 
 </body>
 </html>
+
 
 
 
