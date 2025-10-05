@@ -15,6 +15,7 @@
   <h1>テスト検索その第一回</h1>
   <input type="text" id="query" placeholder="検索語を入力">
   <button onclick="search()">検索</button>
+  <div id="count"></div>
   <div id="results"></div>
   <div id="pagination"></div>
 
@@ -94,28 +95,27 @@
   currentPage = 1;
 
   const resultsDiv = document.getElementById("results");
+  const countDiv = document.getElementById("count");  // ← 新しく取得
   const paginationDiv = document.getElementById("pagination");
 
   resultsDiv.innerHTML = "";
+  countDiv.innerHTML = "";      // 検索件数を初期化
   paginationDiv.innerHTML = "";
 
   if (!query) return;
 
   matches = allData.filter(item => item.content.includes(query));
 
+  // 件数表示
+  countDiv.textContent = `検索結果 ${matches.length} 件`;
+
   if (matches.length === 0) {
     resultsDiv.textContent = "検索結果0件です";
     return;
   }
 
-  // ここで検索件数を表示
-  const countDiv = document.createElement("div");
-  countDiv.style.fontWeight = "bold";
-  countDiv.textContent = `検索結果 ${matches.length} 件`;
-  resultsDiv.appendChild(countDiv);
-
   renderPage();
-  }
+}
 
   function renderPage() {
     const resultsDiv = document.getElementById("results");
@@ -158,6 +158,7 @@
 
 </body>
 </html>
+
 
 
 
