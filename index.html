@@ -2,7 +2,7 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
-  <title>りれき検索</title>
+  <title>テスト検索</title>
   <link href="favicon.ico" rel="icon">
   <style>
     body { font-family: sans-serif; margin: 20px; }
@@ -12,14 +12,14 @@
   </style>
 </head>
 <body>
-  <h2>過去の履歴一括検索</h2>
+  <h1>過去の履歴一括検索</h1>
   <p>テスト運営中</p>
-  <input type="text" id="query" placeholder="曲名orアーティスト">
+  <input type="text" id="query" placeholder="検索語を入力">
   <button onclick="search()">検索</button>
   <div id="count"></div>
-  <div id="pagination-top"></div>
+  <div id="pagination"></div>
   <div id="results"></div>
-  <div id="pagination-bottom"></div>
+
 
  <script>
   const jsonFiles = [
@@ -86,7 +86,7 @@
         const data = await res.json();
         allData = allData.concat(data);
       } catch (e) {
-        console.error("Read error:", file, e);
+        console.error("読み込み失敗:", file, e);
       }
     }
   }
@@ -97,26 +97,26 @@
   currentPage = 1;
 
   const resultsDiv = document.getElementById("results");
-  const countDiv = document.getElementById("count");
+  const countDiv = document.getElementById("count");      // 件数表示用 div
   const paginationDiv = document.getElementById("pagination");
 
-  
+  // 初期化
   resultsDiv.innerHTML = "";
   countDiv.innerHTML = "";
   paginationDiv.innerHTML = "";
 
   if (!query) return;
 
-  
+  // 大文字小文字無視で検索
   matches = allData.filter(item =>
     item.content.toLowerCase().includes(query.toLowerCase())
   );
 
-  
+  // 件数表示
   countDiv.textContent = `検索結果 ${matches.length} 件`;
 
   if (matches.length === 0) {
-    resultsDiv.textContent = "一致するの無かったよ";
+    resultsDiv.textContent = "検索結果0件です";
     return;
   }
 
@@ -134,7 +134,7 @@
     for (let m of pageItems) {
       const div = document.createElement("div");
       div.className = "result";
-      div.textContent = m.content;
+      div.textContent = m.content;  // 行内容だけ
       resultsDiv.appendChild(div);
     }
 
@@ -142,32 +142,56 @@
   }
 
   function renderPagination() {
-  const topDiv = document.getElementById("pagination-top");
-  const bottomDiv = document.getElementById("pagination-bottom");
-  topDiv.innerHTML = "";
-  bottomDiv.innerHTML = "";
+    const paginationDiv = document.getElementById("pagination");
+    paginationDiv.innerHTML = "";
 
-  const totalPages = Math.ceil(matches.length / pageSize);
+    const totalPages = Math.ceil(matches.length / pageSize);
 
-  for (let i = 1; i <= totalPages; i++) {
-    const btn = document.createElement("button");
-    btn.textContent = i;
-    btn.disabled = (i === currentPage);
-    btn.onclick = () => {
-      currentPage = i;
-      renderPage();
-    };
-    topDiv.appendChild(btn.cloneNode(true)); // 上
-    bottomDiv.appendChild(btn);              // 下
+    for (let i = 1; i <= totalPages; i++) {
+      const btn = document.createElement("button");
+      btn.textContent = i;
+      btn.disabled = (i === currentPage);
+      btn.onclick = () => {
+        currentPage = i;
+        renderPage();
+      };
+      paginationDiv.appendChild(btn);
+    }
   }
-}
+
   loadData();
 </script>
-  <hr>
-<a href="note01.html"><font size="1"> このサイトについて</font></a>
+
+
+<a href="note01.html">お知らせ</a>
+
  
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
