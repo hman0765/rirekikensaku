@@ -17,10 +17,9 @@
   <input type="text" id="query" placeholder="検索語を入力">
   <button onclick="search()">検索</button>
   <div id="count"></div>
-　<div id="pagination-top"></div>
+  <div id="pagination-top"></div>
   <div id="results"></div>
   <div id="pagination-bottom"></div>
-
 
  <script>
   const jsonFiles = [
@@ -158,8 +157,8 @@
       currentPage = i;
       renderPage();
     };
-    topDiv.appendChild(btn.cloneNode(true));   // 上用
-    bottomDiv.appendChild(btn);               // 下用
+    topDiv.appendChild(btn.cloneNode(true)); // 上
+    bottomDiv.appendChild(btn);              // 下
   }
 }
   loadData();
@@ -171,6 +170,7 @@
  
 </body>
 </html>
+
 
 
 
