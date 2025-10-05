@@ -2,7 +2,7 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
-  <title>テスト検索</title>
+  <title>履歴検索</title>
   <link href="favicon.ico" rel="icon">
   <style>
     body { font-family: sans-serif; margin: 20px; }
@@ -12,15 +12,13 @@
   </style>
 </head>
 <body>
-  <h1>過去の履歴一括検索</h1>
+  <h2>過去の履歴一括検索</h2>
   <p>テスト運営中</p>
-  <input type="text" id="query" placeholder="検索語を入力">
+  <input type="text" id="query" placeholder="曲名orアーティスト">
   <button onclick="search()">検索</button>
   <div id="count"></div>
   <div id="pagination"></div>
   <div id="results"></div>
-
-
  <script>
   const jsonFiles = [
 "data/201012.json",
@@ -86,7 +84,7 @@
         const data = await res.json();
         allData = allData.concat(data);
       } catch (e) {
-        console.error("読み込み失敗:", file, e);
+        console.error("Loaderror:", file, e);
       }
     }
   }
@@ -97,26 +95,23 @@
   currentPage = 1;
 
   const resultsDiv = document.getElementById("results");
-  const countDiv = document.getElementById("count");      // 件数表示用 div
+  const countDiv = document.getElementById("count"); 
   const paginationDiv = document.getElementById("pagination");
 
-  // 初期化
   resultsDiv.innerHTML = "";
   countDiv.innerHTML = "";
   paginationDiv.innerHTML = "";
 
   if (!query) return;
 
-  // 大文字小文字無視で検索
-  matches = allData.filter(item =>
+    matches = allData.filter(item =>
     item.content.toLowerCase().includes(query.toLowerCase())
   );
 
-  // 件数表示
-  countDiv.textContent = `検索結果 ${matches.length} 件`;
+    countDiv.textContent = `検索結果 ${matches.length} 件`;
 
   if (matches.length === 0) {
-    resultsDiv.textContent = "検索結果0件です";
+    resultsDiv.textContent = "0だよ";
     return;
   }
 
@@ -134,7 +129,7 @@
     for (let m of pageItems) {
       const div = document.createElement("div");
       div.className = "result";
-      div.textContent = m.content;  // 行内容だけ
+      div.textContent = m.content;  
       resultsDiv.appendChild(div);
     }
 
@@ -158,42 +153,11 @@
       paginationDiv.appendChild(btn);
     }
   }
-
   loadData();
 </script>
+  <hr>
+<a href="note01.html"><font size="1"> このサイトについて</font></a>
 
-
-<a href="note01.html">お知らせ</a>
-
- 
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
