@@ -144,6 +144,12 @@
   function renderPagination() {
   const topDiv = document.getElementById("pagination-top");
   const bottomDiv = document.getElementById("pagination-bottom");
+
+  if (!topDiv || !bottomDiv) {
+    console.error("pagination-top / pagination-bottom がHTMLに存在しません");
+    return;
+  }
+
   topDiv.innerHTML = "";
   bottomDiv.innerHTML = "";
 
@@ -157,7 +163,7 @@
       currentPage = i;
       renderPage();
     };
-    topDiv.appendChild(btn.cloneNode(true)); // 上
+    topDiv.appendChild(btn.cloneNode(true)); // 上その2
     bottomDiv.appendChild(btn);              // 下
   }
 }
@@ -170,6 +176,7 @@
  
 </body>
 </html>
+
 
 
 
