@@ -103,7 +103,7 @@
       for (let m of matches) {
         const div = document.createElement("div");
         div.className = "result";
-        div.innerHTML = <div>${m.content}</div>;
+        div.innerHTML = m.content;
         resultsDiv.appendChild(div);
       }
     }
@@ -112,6 +112,7 @@
   </script>
 </body>
 </html>
+
 
 
 
