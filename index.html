@@ -14,7 +14,7 @@
 <body>
   <h2>過去の履歴一括検索</h2>
   <p>テスト運営中</p>
-  <input type="text" id="query" placeholder="曲名orアーティスト">
+  <input type="text" id="query" placeholder="曲名 or アーティスト">
   <button onclick="search()">検索</button>
   <div id="count"></div>
   <div id="pagination"></div>
@@ -111,7 +111,7 @@
     countDiv.textContent = `検索結果 ${matches.length} 件`;
 
   if (matches.length === 0) {
-    resultsDiv.textContent = "0だよ";
+    resultsDiv.textContent = "該当なし";
     return;
   }
 
@@ -156,8 +156,9 @@
   loadData();
 </script>
   <hr>
-<a href="note01.html"><font size="1"> このサイトについて</font></a>
+<a href="note01.html"><font size="1"> コレについて</font></a>
 
 </body>
 </html>
+
 
