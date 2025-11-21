@@ -78,7 +78,7 @@
   let currentPage = 1;
   const pageSize = 100;
 
-  async function allData() 
+  async function loadAllJson() 
   {
   const status = document.getElementById("load-status");
   status.textContent = "データ読み込み中・・・";
@@ -158,10 +158,11 @@
       paginationDiv.appendChild(btn);
     }
   }
-  allData();
+  loadAllJson();
 </script>
 </body>
 </html>
+
 
 
 
