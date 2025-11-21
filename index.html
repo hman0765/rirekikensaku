@@ -14,7 +14,7 @@
 <body>
   <h2>過去の履歴一括検索</h2>
   <p>テスト運営中</p>
-  <div id="load-status" style="margin: 10px; font-weight: bold; color: green;"></div>
+  <div id="load-status" style="margin: 5px;"></div>
   <input type="text" id="query" placeholder="曲名 or アーティスト">
   <button onclick="search()">検索</button>
   <div id="count"></div>
@@ -92,11 +92,9 @@
     console.log("全ファイル読み込み完了");
   console.log("総データ数:", allData.length);
   document.getElementById("load-status").textContent =
-    "読み込み完了（" + allData.length + " 件）";
-  
+    "データ読み込み完了";
   }
-
-  async function search() {
+   async function search() {
   const query = document.getElementById("query").value.trim();
   matches = [];
   currentPage = 1;
@@ -164,6 +162,7 @@
 </script>
 </body>
 </html>
+
 
 
 
