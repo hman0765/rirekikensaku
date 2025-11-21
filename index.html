@@ -88,6 +88,12 @@
         console.error("Loaderror:", file, e);
       }
     }
+    
+    console.log("全ファイル読み込み完了");
+  console.log("総データ数:", allData.length);
+  document.getElementById("load-status").textContent =
+    "読み込み完了（" + allData.length + " 件）";
+  
   }
 
   async function search() {
@@ -158,6 +164,7 @@
 </script>
 </body>
 </html>
+
 
 
 
