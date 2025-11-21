@@ -78,22 +78,29 @@
   let currentPage = 1;
   const pageSize = 100;
 
-  async function loadData() {
-    for (let file of jsonFiles) {
-      try {
-        const res = await fetch(file);
-        const data = await res.json();
-        allData = allData.concat(data);
-      } catch (e) {
-        console.error("Loaderror:", file, e);
-      }
-    }
-    
+  async function loadAllData() {
+  const statusDiv = document.getElementById("load-status");
+
+  // ▼ 読み込み開始
+  statusDiv.textContent = "データ読み込み中…";
+
+  try {
+    const response = await fetch("data.json");
+    const jsonData = await response.json();
+
+    allData = jsonData;
+
     console.log("全ファイル読み込み完了");
-  console.log("総データ数:", allData.length);
-  document.getElementById("load-status").textContent =
-    "データ読み込み完了";
+    console.log("総データ数:", allData.length);
+
+    // ▼ 読み込み完了
+    statusDiv.textContent = "読み込み完了（" + allData.length + " 件）";
+
+  } catch (e) {
+    console.error(e);
+    statusDiv.textContent = "読み込みエラーが発生しました";
   }
+}
    async function search() {
   const query = document.getElementById("query").value.trim();
   matches = [];
@@ -162,6 +169,7 @@
 </script>
 </body>
 </html>
+
 
 
 
