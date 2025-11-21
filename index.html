@@ -81,16 +81,14 @@
 "data/202504.json",
 "data/202508.json",
 ]; 
-   let allData = [];
+  let allData = [];
   let matches = [];
   let currentPage = 1;
   const pageSize = 100;
-
   async function loadAllJson() 
   {
   const status = document.getElementById("load-status");
   status.textContent = "データ読み込み中・・・";
-
   for (let file of jsonFiles) {
     try {
       const response = await fetch(file);
@@ -170,22 +168,5 @@
 </script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
