@@ -17,6 +17,14 @@
   <div id="load-status" style="margin: 5px; color: green;"></div>
   <input type="text" id="query" placeholder="曲名 or アーティスト">
   <button onclick="search()">検索</button>
+  <script>
+  const input = document.getElementById("query");
+  input.addEventListener("keydown", function(event) {
+    if (event.key === "Enter") {
+      search();
+    }
+  });
+</script>  
   <div id="count"></div>
   <div id="pagination"></div>
   <div id="results"></div>
@@ -162,6 +170,7 @@
 </script>
 </body>
 </html>
+
 
 
 
