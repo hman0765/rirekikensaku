@@ -89,7 +89,7 @@
   {
   const status = document.getElementById("load-status");
   status.textContent = "データ読み込み中・・・";
-  statusDiv.style.color = "gray";
+  status.style.color = "gray";
   for (let file of jsonFiles) {
     try {
       const response = await fetch(file);
@@ -100,7 +100,7 @@
     }
   }
 　status.textContent = "履歴でーた読込完了";
-　statusDiv.style.color = "green";
+　status.style.color = "green";
   }
    async function search() {
   const query = document.getElementById("query").value.trim();
@@ -170,6 +170,7 @@
 </script>
 </body>
 </html>
+
 
 
 
