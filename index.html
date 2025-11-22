@@ -99,18 +99,16 @@
       console.error("読み込みエラー:", file, err);
     }
   }
-　status.textContent = "履歴でーた読込完了";
-　status.style.color = "green";
+  status.textContent = "履歴でーた読込完了";
+  status.style.color = "green";
   }
    async function search() {
   const query = document.getElementById("query").value.trim();
   matches = [];
   currentPage = 1;
-
   const resultsDiv = document.getElementById("results");
   const countDiv = document.getElementById("count"); 
   const paginationDiv = document.getElementById("pagination");
-
   resultsDiv.innerHTML = "";
   countDiv.innerHTML = "";
   paginationDiv.innerHTML = "";
@@ -120,17 +118,14 @@
     matches = allData.filter(item =>
     item.content.toLowerCase().includes(query.toLowerCase())
   );
-
     countDiv.textContent = `検索結果 ${matches.length} 件`;
 
   if (matches.length === 0) {
     resultsDiv.textContent = "該当なし";
     return;
   }
-
   renderPage();
 }
-
   function renderPage() {
     const resultsDiv = document.getElementById("results");
     resultsDiv.innerHTML = "";
@@ -145,10 +140,8 @@
       div.textContent = m.content;  
       resultsDiv.appendChild(div);
     }
-
-    renderPagination();
+  renderPagination();
   }
-
   function renderPagination() {
     const paginationDiv = document.getElementById("pagination");
     paginationDiv.innerHTML = "";
@@ -170,6 +163,7 @@
 </script>
 </body>
 </html>
+
 
 
 
