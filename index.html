@@ -14,7 +14,7 @@
 <body>
   <h2>過去の履歴一括検索</h2>
   <p>テスト運営中</p>
-  <div id="load-status" style="margin: 5px; color: green;"></div>
+  <div id="load-status" style="margin: 5px;"></div>
   <input type="text" id="query" placeholder="曲名 or アーティスト">
   <button onclick="search()">検索</button>
   <script>
@@ -99,8 +99,9 @@
       console.error("読み込みエラー:", file, err);
     }
   }
-  status.textContent = "履歴でーた読込完了";
-}
+　status.textContent = "履歴でーた読込完了";
+　statusDiv.style.color = "green";
+  }
    async function search() {
   const query = document.getElementById("query").value.trim();
   matches = [];
@@ -169,6 +170,7 @@
 </script>
 </body>
 </html>
+
 
 
 
