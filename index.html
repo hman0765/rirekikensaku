@@ -107,16 +107,15 @@
   let allData = [];
   let matches = [];
   let currentPage = 1;
-  const pageSize = 100;
+  let pageSize = 100;
   
    
   function changePageSize(size) {
   pageSize = size;
   currentPage = 1; // 先頭ページに戻す
   renderPage(); // 表示し直し
-} 
-   
-   
+  renderPagination();
+  } 
    async function loadAllJson() 
   {
   const status = document.getElementById("load-status");
@@ -198,6 +197,7 @@
 </script>
 </body>
 </html>
+
 
 
 
