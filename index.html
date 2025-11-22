@@ -40,6 +40,14 @@
     }
   });
 </script>  
+  
+ <div style="margin:10px 0;">
+  表示件数:
+  <button onclick="changePageSize(100)">100</button>
+  <button onclick="changePageSize(1000)">1000</button>
+  <button onclick="changePageSize(10000)">10000</button>
+</div> 
+  
   <div id="count"></div>
   <div id="pagination"></div>
   <div id="results"></div>
@@ -100,7 +108,16 @@
   let matches = [];
   let currentPage = 1;
   const pageSize = 100;
-  async function loadAllJson() 
+  
+   
+  function changePageSize(size) {
+  pageSize = size;
+  currentPage = 1; // 先頭ページに戻す
+  renderPage(); // 表示し直し
+} 
+   
+   
+   async function loadAllJson() 
   {
   const status = document.getElementById("load-status");
   const spinner = document.getElementById("loading-spinner");
@@ -181,6 +198,7 @@
 </script>
 </body>
 </html>
+
 
 
 
