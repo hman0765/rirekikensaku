@@ -1,0 +1,22 @@
+{
+  "headers": [
+    {
+      "source": "/data/20(1[0-9]|2[0-5])(01|02|04|08|09|12).json",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
+    },
+    {
+      "source": "/data/202604.json",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=14400"
+        }
+      ]
+    }
+  ]
+}
