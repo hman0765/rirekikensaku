@@ -1,8 +1,10 @@
-export function middleware(request) {
-  const auth = request.headers.get('authorization')
+import { NextResponse } from 'next/server'
+
+export function middleware(req) {
+  const auth = req.headers.get('authorization')
 
   if (!auth) {
-    return new Response('Authentication required', {
+    return new NextResponse('Authentication required', {
       status: 401,
       headers: {
         'WWW-Authenticate': 'Basic realm="Secure Area"',
@@ -19,10 +21,10 @@ export function middleware(request) {
   const validPass = process.env.BASIC_PASS
 
   if (user === validUser && pass === validPass) {
-    return
+    return NextResponse.next()
   }
 
-  return new Response('Access denied', {
+  return new NextResponse('Access denied', {
     status: 401,
     headers: {
       'WWW-Authenticate': 'Basic realm="Secure Area"',
@@ -31,5 +33,5 @@ export function middleware(request) {
 }
 
 export const config = {
-  matcher: ['/storage/:path*'],
+  matcher: ['/admin/:path*'],
 }
