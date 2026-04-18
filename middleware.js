@@ -1,10 +1,8 @@
-import { NextResponse } from 'next/server'
-
-export function middleware(req) {
-  const auth = req.headers.get('authorization')
+export function middleware(request) {
+  const auth = request.headers.get('authorization')
 
   if (!auth) {
-    return new NextResponse('Authentication required', {
+    return new Response('Authentication required', {
       status: 401,
       headers: {
         'WWW-Authenticate': 'Basic realm="Secure Area"',
@@ -21,10 +19,10 @@ export function middleware(req) {
   const validPass = process.env.BASIC_PASS
 
   if (user === validUser && pass === validPass) {
-    return NextResponse.next()
+    return
   }
 
-  return new NextResponse('Access denied', {
+  return new Response('Access denied', {
     status: 401,
     headers: {
       'WWW-Authenticate': 'Basic realm="Secure Area"',
