@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="ja">
 
 <head>
@@ -79,6 +79,8 @@
     <button onclick="changePageSize(100)">100</button>
     <button onclick="changePageSize(1000)">1000</button>
     <button onclick="changePageSize(10000)">10000</button>
+    並び順切替  
+    <button id="sort-order-btn" onclick="toggleSortOrder()">昇順</button>
   </div>
   <div id="count"></div>
   <div id="pagination"></div>
@@ -141,11 +143,31 @@
     let matches = [];
     let currentPage = 1;
     let pageSize = 100;
+    let isAscending = true;
     function changePageSize(size) {
       pageSize = size;
       currentPage = 1;
       renderPage();
       renderPagination();
+    }
+    function sortMatches() {
+      matches.sort((a, b) =>
+        isAscending
+          ? a.content.localeCompare(b.content, "ja")
+          : b.content.localeCompare(a.content, "ja")
+      );
+    }
+    function updateSortButtonLabel() {
+      const sortBtn = document.getElementById("sort-order-btn");
+      sortBtn.textContent = isAscending ? "昇順" : "降順";
+    }
+    function toggleSortOrder() {
+      isAscending = !isAscending;
+      updateSortButtonLabel();
+      if (matches.length === 0) return;
+      currentPage = 1;
+      sortMatches();
+      renderPage();
     }
     async function loadAllJson() {
       const status = document.getElementById("load-status");
@@ -182,6 +204,7 @@
       matches = allData.filter(item =>
         item.content.toLowerCase().includes(query.toLowerCase())
       );
+      sortMatches();
       countDiv.textContent = `検索結果 ${matches.length} 件`;
       if (matches.length === 0) {
         resultsDiv.textContent = "該当なし";
@@ -220,6 +243,7 @@
       }
     }
     loadAllJson();
+    updateSortButtonLabel();
   </script>
 </body>
 
