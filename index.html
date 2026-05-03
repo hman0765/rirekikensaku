@@ -191,6 +191,11 @@
     }
     async function search() {
       const query = document.getElementById("query").value.trim();
+      if (query) {
+        gtag('event', 'search', {
+          'search_term': query
+        });
+      }
       matches = [];
       currentPage = 1;
       const resultsDiv = document.getElementById("results");
