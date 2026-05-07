@@ -191,11 +191,19 @@
     }
     async function search() {
       const query = document.getElementById("query").value.trim();
-      if (query) {
-        gtag('event', 'search', {
-          'search_term': query
-        });
-      }
+      if (!query) return;
+      gtag('event', 'search', {
+        search_term: query
+      });
+      fetch('/api/search-log', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          query
+        })
+      });
       matches = [];
       currentPage = 1;
       const resultsDiv = document.getElementById("results");
