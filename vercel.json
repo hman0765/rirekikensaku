@@ -14,7 +14,16 @@
       "headers": [
         {
           "key": "Cache-Control",
-          "value": "public, max-age=14400"
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
+    },
+    {
+      "source": "/data/202608.json",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, public, max-age=14400"
         }
       ]
     }
