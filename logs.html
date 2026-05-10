@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>検索ログ</title>
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-MQ7VTER1DZ"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'G-MQ7VTER1DZ');
+    </script>
+
+    <style>
+        body {
+            font-family: sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+        }
+
+        h1 {
+            margin-bottom: 24px;
+        }
+
+        .log {
+            padding: 12px 0;
+            border-bottom: 1px solid #ccc;
+        }
+
+        .query {
+            font-size: 16px;
+            font-weight: bold;
+            word-break: break-word;
+        }
+
+        .time {
+            font-size: 13px;
+            color: #666;
+            margin-top: 4px;
+        }
+
+        .loading {
+            color: #666;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h2>検索ログ</h2>
+
+    <div id="logs" class="loading">
+        読み込み中...
+    </div>
+
+    <script>
+
+        async function loadLogs() {
+
+            try {
+
+                const res = await fetch('/api/search-list')
+
+                if (!res.ok) {
+                    throw new Error('API Error')
+                }
+
+                const logs = await res.json()
+
+                const container = document.getElementById('logs')
+
+                container.innerHTML = ''
+
+                if (logs.length === 0) {
+                    container.textContent = 'ログはありません'
+                    return
+                }
+
+                logs.forEach(log => {
+
+                    const div = document.createElement('div')
+
+                    div.className = 'log'
+
+                    const date = new Date(log.created_at)
+
+                    const jpTime = date.toLocaleString('ja-JP', {
+                        timeZone: 'Asia/Tokyo'
+                    })
+
+                    div.innerHTML = `
+            <div class="query">
+              ${escapeHtml(log.query)}
+            </div>
+
+            <div class="time">
+              ${jpTime}
+            </div>
+          `
+
+                    container.appendChild(div)
+                })
+
+            } catch (err) {
+
+                console.error(err)
+
+                document.getElementById('logs').textContent =
+                    '読み込みに失敗しました'
+            }
+        }
+
+        function escapeHtml(str) {
+
+            return str
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#039;')
+        }
+
+        loadLogs()
+
+    </script>
+
+</body>
+
+</html>
